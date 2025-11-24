@@ -218,6 +218,7 @@
             background: #f8f9fa;
             padding: 20px;
             border-radius: 12px;
+            margin-top: 20px; /* Added separation */
         }
 
         .checkbox-group h3 {
@@ -442,10 +443,10 @@
                 <button type="button" onclick="proceedToStep3()">Continue to Plan Selection →</button>
             </div>
 
-            <!-- SECTION 3: Plan Selection -->
+            <!-- SECTION 3: Plan Selection (Updated with Checklist and Questionnaire) -->
             <div id="documentSelectionSection" class="section">
                 <div class="info-banner">
-                    <p>📦 Choose a plan and customize the required documents for this client.</p>
+                    <p>📦 Choose a plan and customize the required documents, checklist, and questionnaire for this client.</p>
                 </div>
 
                 <h2 style="color: #667eea; margin-bottom: 20px;">Select Documentation Plan</h2>
@@ -471,6 +472,7 @@
                     </label>
                 </div>
 
+                <!-- Original Document Checkbox Group -->
                 <div class="checkbox-group">
                     <h3>📄 Required Documents</h3>
                     
@@ -501,6 +503,42 @@
                     <div class="checkbox-item">
                         <input type="checkbox" id="doc7" name="documents" value="Medical Certificate" class="doc-checkbox">
                         <label for="doc7">🏥 Medical Certificate</label>
+                    </div>
+                </div>
+
+                <!-- NEW: Onboarding Checklist -->
+                <div class="checkbox-group">
+                    <h3>✅ Onboarding Checklist</h3>
+                    
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="check1" name="checklistOptions" value="checklist1">
+                        <label for="check1">KYC Documents Submitted</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="check2" name="checklistOptions" value="checklist2">
+                        <label for="check2">Service Contract Signed</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="check3" name="checklistOptions" value="checklist3">
+                        <label for="check3">Initial Payment Received</label>
+                    </div>
+                </div>
+
+                <!-- NEW: Client Questionnaire -->
+                <div class="checkbox-group">
+                    <h3>❓ Client Questionnaire</h3>
+                    
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="quest1" name="questionnaireOptions" value="questionnaire1">
+                        <label for="quest1">Flagged as High Risk</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="quest2" name="questionnaireOptions" value="questionnaire2">
+                        <label for="quest2">Requires Custom Setup</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="quest3" name="questionnaireOptions" value="questionnaire3">
+                        <label for="quest3">Marketing Communications Opt-In</label>
                     </div>
                 </div>
 
@@ -545,8 +583,12 @@
             document.getElementById(sectionId).classList.add('active');
         }
 
+        /* UPDATED: Function to clear all checkboxes in the section */
         function setDefaultCheckboxes(plan) {
-            document.querySelectorAll('.doc-checkbox').forEach(cb => cb.checked = false);
+            // Clear ALL checkboxes in the document selection section
+            document.querySelectorAll('#documentSelectionSection input[type="checkbox"]').forEach(cb => cb.checked = false);
+            
+            // Set Plan-based document defaults
             if (plan === 'PlanA') {
                 document.getElementById('doc1').checked = true;
                 document.getElementById('doc2').checked = true;
@@ -558,6 +600,8 @@
                 document.getElementById('doc2').checked = true;
                 document.getElementById('doc3').checked = true;
             }
+            
+            // Checklist and Questionnaire remain unchecked (default state after clear)
         }
 
         function handlePlanChange(plan, element) {
@@ -631,7 +675,7 @@
 
             updateStep(3);
             showSection('documentSelectionSection');
-            setDefaultCheckboxes('PlanA');
+            setDefaultCheckboxes('PlanA'); // Resets all checkboxes and sets default for PlanA
         }
 
         document.getElementById('phoneNumSearch').addEventListener('keypress', function(e) {
