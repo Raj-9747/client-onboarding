@@ -148,7 +148,8 @@
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        .read-only input {
+        /* Read Only Style (Grey Background) */
+        .form-group.read-only input {
             background-color: #f8f9fa;
             color: #666;
             cursor: not-allowed;
@@ -218,7 +219,7 @@
             background: #f8f9fa;
             padding: 20px;
             border-radius: 12px;
-            margin-top: 20px; /* Added separation */
+            margin-top: 20px;
         }
 
         .checkbox-group h3 {
@@ -257,6 +258,13 @@
             font-weight: 400;
         }
 
+        /* --- BUTTON STYLES --- */
+        .button-group {
+            display: flex;
+            gap: 16px;
+            margin-top: 30px;
+        }
+
         button {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -268,6 +276,7 @@
             font-weight: 600;
             transition: all 0.3s ease;
             width: 100%;
+            flex: 1;
         }
 
         button:hover {
@@ -285,8 +294,45 @@
             transform: none;
         }
 
+        /* Secondary Button (Back Button / Manual Button) */
+        button.btn-secondary {
+            background: transparent;
+            color: #666;
+            border: 2px solid #e0e0e0;
+        }
+
+        button.btn-secondary:hover {
+            border-color: #667eea;
+            color: #667eea;
+            background: #f8f9fa;
+            box-shadow: none;
+        }
+
         .search-btn {
             min-width: 180px;
+        }
+
+        .or-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .or-divider::before, .or-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .or-divider::before {
+            margin-right: 10px;
+        }
+
+        .or-divider::after {
+            margin-left: 10px;
         }
 
         .alert {
@@ -359,6 +405,10 @@
             .step-label {
                 font-size: 10px;
             }
+
+            .button-group {
+                flex-direction: column-reverse;
+            }
         }
     </style>
 </head>
@@ -375,7 +425,7 @@
             </div>
             <div class="step" id="step2">
                 <div class="step-circle">2</div>
-                <div class="step-label">Review Details</div>
+                <div class="step-label">Details</div>
             </div>
             <div class="step" id="step3">
                 <div class="step-circle">3</div>
@@ -386,19 +436,26 @@
         <!-- Alert Messages -->
         <div id="alertBox" class="alert"></div>
 
-        <!-- SECTION 1: Phone Number Search -->
+        <!-- SECTION 1: Phone Number Search OR Manual Entry -->
         <div id="searchSection" class="section active">
             <div class="info-banner">
-                <p>📱 Enter the client's phone number to retrieve their details from our system.</p>
+                <p>📱 Enter the client's phone number to auto-fill details, or choose to enter information manually.</p>
             </div>
             
             <div class="search-container">
-                <input type="tel" id="phoneNumSearch" placeholder="Enter Phone Number (e.g., 917990700545)" required>
+                <input type="tel" id="phoneNumSearch" placeholder="Enter Phone Number (e.g., 917990700545)">
                 <button type="button" class="search-btn" onclick="findClientDetails()">
                     <span id="searchBtnText">🔍 Find Client</span>
                     <div id="searchSpinner" class="loading-spinner"></div>
                 </button>
             </div>
+
+            <!-- NEW: Divider and Manual Option -->
+            <div class="or-divider">OR</div>
+
+            <button type="button" class="btn-secondary" onclick="enterManually()">
+                📝 Enter Details Manually
+            </button>
         </div>
 
         <form id="onboardingForm" action="https://n8n.srv898271.hstgr.cloud/webhook/submit-docs" method="POST">
@@ -406,7 +463,7 @@
             <!-- SECTION 2: Client Details -->
             <div id="clientDetailsSection" class="section">
                 <div class="info-banner">
-                    <p>✏️ Review and edit the client information below. Read-only fields are pre-filled from our records.</p>
+                    <p>✏️ Review and edit the client information below.</p>
                 </div>
 
                 <h2 style="color: #667eea; margin-bottom: 20px;">Client Information</h2>
@@ -422,31 +479,36 @@
                         <label for="email">📧 Email Address:</label>
                         <input type="email" id="email" name="email" required>
                     </div>
-                    <div class="form-group read-only">
+                    <!-- Added ID for wrapper to toggle read-only class -->
+                    <div class="form-group read-only" id="group-phone">
                         <label>📞 Phone Number:</label>
-                        <input type="text" id="originalPhoneNum" name="originalPhoneNum" readonly>
+                        <input type="text" id="originalPhoneNum" name="originalPhoneNum" readonly required>
                     </div>
-                    <div class="form-group read-only">
+                    <div class="form-group read-only" id="group-score">
                         <label>⭐ Quality Score:</label>
                         <input type="text" id="qualityScore" name="qualityScore" readonly>
                     </div>
-                    <div class="form-group read-only">
+                    <div class="form-group read-only" id="group-call">
                         <label>📋 Call Type:</label>
                         <input type="text" id="callType" name="callType" readonly>
                     </div>
-                    <div class="form-group read-only">
+                    <div class="form-group read-only" id="group-time">
                         <label>🕒 Time Stamp:</label>
                         <input type="text" id="timeStamp" name="timeStamp" readonly>
                     </div>
                 </div>
 
-                <button type="button" onclick="proceedToStep3()">Continue to Plan Selection →</button>
+                <!-- Button Group -->
+                <div class="button-group">
+                    <button type="button" class="btn-secondary" onclick="goBackToStep1()">← Back</button>
+                    <button type="button" onclick="proceedToStep3()">Continue to Plan Selection →</button>
+                </div>
             </div>
 
-            <!-- SECTION 3: Plan Selection (Updated with Checklist and Questionnaire) -->
+            <!-- SECTION 3: Plan Selection -->
             <div id="documentSelectionSection" class="section">
                 <div class="info-banner">
-                    <p>📦 Choose a plan and customize the required documents, checklist, and questionnaire for this client.</p>
+                    <p>📦 Choose a plan and customize the required documents.</p>
                 </div>
 
                 <h2 style="color: #667eea; margin-bottom: 20px;">Select Documentation Plan</h2>
@@ -472,10 +534,9 @@
                     </label>
                 </div>
 
-                <!-- Original Document Checkbox Group -->
+                <!-- Checkbox Groups -->
                 <div class="checkbox-group">
                     <h3>📄 Required Documents</h3>
-                    
                     <div class="checkbox-item">
                         <input type="checkbox" id="doc1" name="documents" value="Passport" class="doc-checkbox">
                         <label for="doc1">🛂 Passport</label>
@@ -506,10 +567,8 @@
                     </div>
                 </div>
 
-                <!-- NEW: Onboarding Checklist -->
                 <div class="checkbox-group">
                     <h3>✅ Onboarding Checklist</h3>
-                    
                     <div class="checkbox-item">
                         <input type="checkbox" id="check1" name="checklistOptions" value="checklist1">
                         <label for="check1">KYC Documents Submitted</label>
@@ -524,10 +583,8 @@
                     </div>
                 </div>
 
-                <!-- NEW: Client Questionnaire -->
                 <div class="checkbox-group">
                     <h3>❓ Client Questionnaire</h3>
-                    
                     <div class="checkbox-item">
                         <input type="checkbox" id="quest1" name="questionnaireOptions" value="questionnaire1">
                         <label for="quest1">Flagged as High Risk</label>
@@ -542,7 +599,11 @@
                     </div>
                 </div>
 
-                <button type="submit" style="margin-top: 30px;">✅ Submit & Start Workflow</button>
+                <!-- Button Group -->
+                <div class="button-group">
+                    <button type="button" class="btn-secondary" onclick="goBackToStep2()">← Back</button>
+                    <button type="submit">✅ Submit & Start Workflow</button>
+                </div>
             </div>
         </form>
     </div>
@@ -583,12 +644,54 @@
             document.getElementById(sectionId).classList.add('active');
         }
 
-        /* UPDATED: Function to clear all checkboxes in the section */
+        function goBackToStep1() {
+            showSection('searchSection');
+            updateStep(1);
+        }
+
+        function goBackToStep2() {
+            showSection('clientDetailsSection');
+            updateStep(2);
+        }
+
+        /* NEW: Helper to toggle fields between Read-Only (Search) and Editable (Manual) */
+        function toggleReadOnly(isReadOnly) {
+            const inputs = ['originalPhoneNum', 'qualityScore', 'callType', 'timeStamp'];
+            const groups = ['group-phone', 'group-score', 'group-call', 'group-time'];
+
+            if (isReadOnly) {
+                // Set fields to Read Only
+                inputs.forEach(id => document.getElementById(id).setAttribute('readonly', true));
+                groups.forEach(id => document.getElementById(id).classList.add('read-only'));
+            } else {
+                // Set fields to Editable
+                inputs.forEach(id => document.getElementById(id).removeAttribute('readonly'));
+                groups.forEach(id => document.getElementById(id).classList.remove('read-only'));
+            }
+        }
+
+        /* NEW: Enter Manually Function */
+        function enterManually() {
+            // 1. Clear all fields to ensure no leftover data
+            document.getElementById('mondayItemId').value = '';
+            document.getElementById('customerName').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('originalPhoneNum').value = '';
+            document.getElementById('qualityScore').value = '';
+            document.getElementById('callType').value = '';
+            document.getElementById('timeStamp').value = '';
+
+            // 2. Make fields editable
+            toggleReadOnly(false);
+
+            // 3. Move to next step
+            updateStep(2);
+            showSection('clientDetailsSection');
+        }
+
         function setDefaultCheckboxes(plan) {
-            // Clear ALL checkboxes in the document selection section
             document.querySelectorAll('#documentSelectionSection input[type="checkbox"]').forEach(cb => cb.checked = false);
             
-            // Set Plan-based document defaults
             if (plan === 'PlanA') {
                 document.getElementById('doc1').checked = true;
                 document.getElementById('doc2').checked = true;
@@ -600,8 +703,6 @@
                 document.getElementById('doc2').checked = true;
                 document.getElementById('doc3').checked = true;
             }
-            
-            // Checklist and Questionnaire remain unchecked (default state after clear)
         }
 
         function handlePlanChange(plan, element) {
@@ -648,11 +749,14 @@
                     document.getElementById('callType').value = client.callType;
                     document.getElementById('timeStamp').value = client.timeStamp;
 
+                    // Ensure fields are locked (Read Only) because we found data
+                    toggleReadOnly(true);
+
                     showAlert('✅ Client found successfully!', 'success');
                     updateStep(2);
                     showSection('clientDetailsSection');
                 } else {
-                    showAlert(`❌ ${data.message || 'Client not found. Please check the phone number and try again.'}`, 'error');
+                    showAlert(`❌ ${data.message || 'Client not found. Please check the phone number or enter details manually.'}`, 'error');
                 }
             } catch (error) {
                 console.error('Fetch error:', error);
@@ -667,15 +771,16 @@
         function proceedToStep3() {
             const customerName = document.getElementById('customerName').value.trim();
             const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('originalPhoneNum').value.trim();
 
-            if (!customerName || !email) {
-                showAlert('⚠️ Please fill in all required fields', 'error');
+            if (!customerName || !email || !phone) {
+                showAlert('⚠️ Please fill in all required fields (Name, Email, Phone)', 'error');
                 return;
             }
 
             updateStep(3);
             showSection('documentSelectionSection');
-            setDefaultCheckboxes('PlanA'); // Resets all checkboxes and sets default for PlanA
+            setDefaultCheckboxes('PlanA');
         }
 
         document.getElementById('phoneNumSearch').addEventListener('keypress', function(e) {
