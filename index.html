@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,6 +42,7 @@
             font-size: 14px;
         }
 
+        /* --- STEP INDICATOR --- */
         .step-indicator {
             display: flex;
             justify-content: space-between;
@@ -97,6 +99,7 @@
             font-weight: 500;
         }
 
+        /* --- SECTIONS & ANIMATION --- */
         .section {
             display: none;
             animation: fadeIn 0.5s ease;
@@ -107,10 +110,18 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
+        /* --- FORMS & INPUTS --- */
         .search-container {
             display: flex;
             gap: 10px;
@@ -148,8 +159,7 @@
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        /* Read Only Style (Grey Background) */
-        .form-group.read-only input {
+        .read-only input {
             background-color: #f8f9fa;
             color: #666;
             cursor: not-allowed;
@@ -161,82 +171,59 @@
             gap: 20px;
         }
 
-        .plan-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .plan-card {
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .plan-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .plan-card.selected {
-            border-color: #667eea;
-            background: linear-gradient(135deg, #667eea10 0%, #764ba210 100%);
-        }
-
-        .plan-card input[type="radio"] {
-            position: absolute;
-            opacity: 0;
-        }
-
-        .plan-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-        }
-
-        .plan-description {
-            font-size: 13px;
-            color: #666;
-            margin-bottom: 12px;
-        }
-
-        .plan-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            background: #667eea;
-            color: white;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-
+        /* --- CHECKBOX GROUPS & NESTING --- */
         .checkbox-group {
             background: #f8f9fa;
             padding: 20px;
             border-radius: 12px;
             margin-top: 20px;
+            border: 1px solid #eee;
         }
 
         .checkbox-group h3 {
-            color: #333;
+            color: #5d6778;
             margin-bottom: 16px;
             font-size: 16px;
-        }
-
-        .checkbox-item {
+            font-weight: 700;
             display: flex;
             align-items: center;
-            padding: 12px;
+            gap: 8px;
+        }
+
+        .service-header {
+            color: #667eea !important;
+        }
+
+        .questionnaire-header {
+            color: #c62828 !important;
+        }
+
+        /* Wrapper for Parent + Sub-options */
+        .checkbox-wrapper {
             margin-bottom: 8px;
             background: white;
             border-radius: 8px;
+            border: 1px solid transparent;
             transition: all 0.2s ease;
+        }
+
+        .checkbox-wrapper:hover {
+            border-color: #e0e0e0;
+        }
+
+        .checkbox-wrapper:has(.parent-checkbox input:checked) {
+            background-color: #fcfdff;
+            border-color: #667eea;
+        }
+
+        /* The clickable item */
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 14px;
             cursor: pointer;
+            border-radius: 8px;
+            transition: background 0.2s;
         }
 
         .checkbox-item:hover {
@@ -246,19 +233,66 @@
         .checkbox-item input[type="checkbox"] {
             width: 20px;
             height: 20px;
-            margin-right: 12px;
+            margin-right: 15px;
             cursor: pointer;
             accent-color: #667eea;
+            flex-shrink: 0;
         }
 
         .checkbox-item label {
             cursor: pointer;
             flex: 1;
             margin: 0;
-            font-weight: 400;
+            font-weight: 500;
+            color: #444;
+            display: flex;
+            align-items: center;
         }
 
-        /* --- BUTTON STYLES --- */
+        /* Sub Options Container */
+        .sub-options {
+            display: none;
+            padding: 0 14px 14px 49px;
+            animation: slideDown 0.3s ease;
+        }
+
+        .sub-options.open {
+            display: block;
+        }
+
+        /* Sub Item Style */
+        .sub-item {
+            padding: 10px;
+            margin-top: 5px;
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .sub-item:hover {
+            background-color: #f8f9fa;
+            border-color: #ccc;
+        }
+
+        .service-icon {
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .service-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: #777;
+            transition: fill 0.2s ease;
+        }
+
+        .checkbox-item input:checked+.service-icon svg {
+            fill: #667eea;
+        }
+
+        /* --- BUTTONS --- */
         .button-group {
             display: flex;
             gap: 16px;
@@ -284,19 +318,8 @@
             box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
         }
 
-        button:active {
-            transform: translateY(0);
-        }
-
-        button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Secondary Button (Back Button / Manual Button) */
         button.btn-secondary {
-            background: transparent;
+            background: white;
             color: #666;
             border: 2px solid #e0e0e0;
         }
@@ -321,7 +344,8 @@
             font-size: 14px;
         }
 
-        .or-divider::before, .or-divider::after {
+        .or-divider::before,
+        .or-divider::after {
             content: '';
             flex: 1;
             border-bottom: 1px solid #e0e0e0;
@@ -341,11 +365,6 @@
             margin-bottom: 20px;
             display: none;
             animation: slideDown 0.3s ease;
-        }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .alert.success {
@@ -372,7 +391,9 @@
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .info-banner {
@@ -398,20 +419,13 @@
                 grid-template-columns: 1fr;
             }
 
-            .plan-options {
-                grid-template-columns: 1fr;
-            }
-
-            .step-label {
-                font-size: 10px;
-            }
-
             .button-group {
                 flex-direction: column-reverse;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>🚀 Client Onboarding</h1>
@@ -429,19 +443,19 @@
             </div>
             <div class="step" id="step3">
                 <div class="step-circle">3</div>
-                <div class="step-label">Select Plan</div>
+                <div class="step-label">Select Checklists</div>
             </div>
         </div>
 
         <!-- Alert Messages -->
         <div id="alertBox" class="alert"></div>
 
-        <!-- SECTION 1: Phone Number Search OR Manual Entry -->
+        <!-- SECTION 1: Search / Manual -->
         <div id="searchSection" class="section active">
             <div class="info-banner">
                 <p>📱 Enter the client's phone number to auto-fill details, or choose to enter information manually.</p>
             </div>
-            
+
             <div class="search-container">
                 <input type="tel" id="phoneNumSearch" placeholder="Enter Phone Number (e.g., 917990700545)">
                 <button type="button" class="search-btn" onclick="findClientDetails()">
@@ -450,7 +464,6 @@
                 </button>
             </div>
 
-            <!-- NEW: Divider and Manual Option -->
             <div class="or-divider">OR</div>
 
             <button type="button" class="btn-secondary" onclick="enterManually()">
@@ -459,7 +472,7 @@
         </div>
 
         <form id="onboardingForm" action="https://n8n.srv898271.hstgr.cloud/webhook/submit-docs" method="POST">
-            
+
             <!-- SECTION 2: Client Details -->
             <div id="clientDetailsSection" class="section">
                 <div class="info-banner">
@@ -467,9 +480,9 @@
                 </div>
 
                 <h2 style="color: #667eea; margin-bottom: 20px;">Client Information</h2>
-                
+
                 <input type="hidden" id="mondayItemId" name="mondayItemId">
-                
+
                 <div class="details-grid">
                     <div class="form-group">
                         <label for="customerName">👤 Customer Name:</label>
@@ -479,7 +492,6 @@
                         <label for="email">📧 Email Address:</label>
                         <input type="email" id="email" name="email" required>
                     </div>
-                    <!-- Added ID for wrapper to toggle read-only class -->
                     <div class="form-group read-only" id="group-phone">
                         <label>📞 Phone Number:</label>
                         <input type="text" id="originalPhoneNum" name="originalPhoneNum" readonly required>
@@ -498,108 +510,207 @@
                     </div>
                 </div>
 
-                <!-- Button Group -->
                 <div class="button-group">
                     <button type="button" class="btn-secondary" onclick="goBackToStep1()">← Back</button>
-                    <button type="button" onclick="proceedToStep3()">Continue to Plan Selection →</button>
+                    <button type="button" onclick="proceedToStep3()">Continue to Checklists →</button>
                 </div>
             </div>
 
-            <!-- SECTION 3: Plan Selection -->
-            <div id="documentSelectionSection" class="section">
+            <!-- SECTION 3: Select Checklists & Questionnaire -->
+            <div id="serviceSelectionSection" class="section">
                 <div class="info-banner">
-                    <p>📦 Choose a plan and customize the required documents.</p>
+                    <p>📂 Please select the applicable checklists. Sub-options will appear when selected.</p>
                 </div>
 
-                <h2 style="color: #667eea; margin-bottom: 20px;">Select Documentation Plan</h2>
-                
-                <div class="plan-options">
-                    <label class="plan-card selected" for="optionA">
-                        <input type="radio" id="optionA" name="planOption" value="PlanA" checked onchange="handlePlanChange('PlanA', this)">
-                        <div class="plan-title">🌟 Comprehensive Plan</div>
-                        <div class="plan-description">Includes all essential documents for complete verification</div>
-                        <span class="plan-badge">RECOMMENDED</span>
-                    </label>
-
-                    <label class="plan-card" for="optionB">
-                        <input type="radio" id="optionB" name="planOption" value="PlanB" onchange="handlePlanChange('PlanB', this)">
-                        <div class="plan-title">💼 Basic Plan</div>
-                        <div class="plan-description">Standard document package for quick onboarding</div>
-                    </label>
-
-                    <label class="plan-card" for="optionC">
-                        <input type="radio" id="optionC" name="planOption" value="PlanC" onchange="handlePlanChange('PlanC', this)">
-                        <div class="plan-title">🚀 Starter Plan</div>
-                        <div class="plan-description">Minimal requirements to get started quickly</div>
-                    </label>
-                </div>
-
-                <!-- Checkbox Groups -->
+                <!-- 1. Select Checklists -->
                 <div class="checkbox-group">
-                    <h3>📄 Required Documents</h3>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="doc1" name="documents" value="Passport" class="doc-checkbox">
-                        <label for="doc1">🛂 Passport</label>
+                    <h3 class="service-header">Select Checklists</h3>
+
+                    <!-- 1. CEC (With Sub-options) -->
+                    <div class="checkbox-wrapper">
+                        <label class="checkbox-item parent-checkbox">
+                            <input type="checkbox" name="serviceType" value="CEC"
+                                onchange="toggleSubOptions(this, 'sub-CEC')">
+                            <div class="service-icon"><svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z" />
+                                </svg></div>
+                            CEC
+                        </label>
+                        <div class="sub-options" id="sub-CEC">
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="CEC - Single Applicant">
+                                Document Checklist- CEC- Single applicant
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType"
+                                    value="CEC - Accompanying spouse and child">
+                                Document Checklist- CEC- Accompanying spouse and child
+                            </label>
+                        </div>
                     </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="doc2" name="documents" value="ID Proof" class="doc-checkbox">
-                        <label for="doc2">🪪 ID Proof</label>
+
+                    <!-- 2. Citizenship (With Sub-options) -->
+                    <div class="checkbox-wrapper">
+                        <label class="checkbox-item parent-checkbox">
+                            <input type="checkbox" name="serviceType" value="Citizenship"
+                                onchange="toggleSubOptions(this, 'sub-Cit')">
+                            <div class="service-icon"><svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z" />
+                                </svg></div>
+                            Citizenship
+                        </label>
+                        <div class="sub-options" id="sub-Cit">
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType"
+                                    value="Citizenship - Accompanying spouse or child">
+                                Document Checklist- Citizenship- Accompanying spouse or child
+                            </label>
+                        </div>
                     </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="doc3" name="documents" value="Utility Bill" class="doc-checkbox">
-                        <label for="doc3">💡 Utility Bill</label>
+
+                    <!-- 3. Non-Express Entry (With Sub-options) -->
+                    <div class="checkbox-wrapper">
+                        <label class="checkbox-item parent-checkbox">
+                            <input type="checkbox" name="serviceType" value="Non-Express Entry"
+                                onchange="toggleSubOptions(this, 'sub-NEE')">
+                            <div class="service-icon"><svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z" />
+                                </svg></div>
+                            Non-Express Entry
+                        </label>
+                        <div class="sub-options" id="sub-NEE">
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType"
+                                    value="Non-Express Entry - Non accompanying spouse">
+                                Document Checklist- Non-Express Entry- Non accompanying spouse
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType"
+                                    value="Non-Express Entry - Accompanying spouse and child">
+                                Document Checklist- Non-Express Entry- Accompanying spouse and child
+                            </label>
+                        </div>
                     </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="doc4" name="documents" value="Financial Statement" class="doc-checkbox">
-                        <label for="doc4">💰 Financial Statement</label>
+
+                    <!-- 4. Parents and Grandparents -->
+                    <div class="checkbox-wrapper">
+                        <label class="checkbox-item parent-checkbox">
+                            <input type="checkbox" name="serviceType" value="Parents and Grandparents">
+                            <div class="service-icon"><svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z" />
+                                </svg></div>
+                            Parents and Grandparents
+                        </label>
                     </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="doc5" name="documents" value="Tax Return" class="doc-checkbox">
-                        <label for="doc5">📊 Tax Return</label>
+
+                    <!-- 5. PR Card -->
+                    <div class="checkbox-wrapper">
+                        <label class="checkbox-item parent-checkbox">
+                            <input type="checkbox" name="serviceType" value="PR Card">
+                            <div class="service-icon"><svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z" />
+                                </svg></div>
+                            PR Card
+                        </label>
                     </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="doc6" name="documents" value="Employment Letter" class="doc-checkbox">
-                        <label for="doc6">📝 Employment Letter</label>
+
+                    <!-- 6. Provincial Nominee -->
+                    <div class="checkbox-wrapper">
+                        <label class="checkbox-item parent-checkbox">
+                            <input type="checkbox" name="serviceType" value="Provincial Nominee Programs">
+                            <div class="service-icon"><svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z" />
+                                </svg></div>
+                            Provincial Nominee Programs
+                        </label>
                     </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="doc7" name="documents" value="Medical Certificate" class="doc-checkbox">
-                        <label for="doc7">🏥 Medical Certificate</label>
+
+                    <!-- 7. Spousal Sponsorship -->
+                    <div class="checkbox-wrapper">
+                        <label class="checkbox-item parent-checkbox">
+                            <input type="checkbox" name="serviceType" value="Spousal Sponsorship">
+                            <div class="service-icon"><svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z" />
+                                </svg></div>
+                            Spousal Sponsorship
+                        </label>
+                    </div>
+
+                    <!-- 8. Study Permit -->
+                    <div class="checkbox-wrapper">
+                        <label class="checkbox-item parent-checkbox">
+                            <input type="checkbox" name="serviceType" value="Study Permit">
+                            <div class="service-icon"><svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z" />
+                                </svg></div>
+                            Study Permit
+                        </label>
+                    </div>
+
+                    <!-- 9. Supervisa -->
+                    <div class="checkbox-wrapper">
+                        <label class="checkbox-item parent-checkbox">
+                            <input type="checkbox" name="serviceType" value="Supervisa">
+                            <div class="service-icon"><svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z" />
+                                </svg></div>
+                            Supervisa
+                        </label>
+                    </div>
+
+                    <!-- 10. Visitor -->
+                    <div class="checkbox-wrapper">
+                        <label class="checkbox-item parent-checkbox">
+                            <input type="checkbox" name="serviceType" value="Visitor">
+                            <div class="service-icon"><svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z" />
+                                </svg></div>
+                            Visitor
+                        </label>
+                    </div>
+
+                    <!-- 11. Work Permits -->
+                    <div class="checkbox-wrapper">
+                        <label class="checkbox-item parent-checkbox">
+                            <input type="checkbox" name="serviceType" value="Work Permits">
+                            <div class="service-icon"><svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z" />
+                                </svg></div>
+                            Work Permits
+                        </label>
                     </div>
                 </div>
 
+                <!-- 2. Client Questionnaire -->
                 <div class="checkbox-group">
-                    <h3>✅ Onboarding Checklist</h3>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="check1" name="checklistOptions" value="checklist1">
-                        <label for="check1">KYC Documents Submitted</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="check2" name="checklistOptions" value="checklist2">
-                        <label for="check2">Service Contract Signed</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="check3" name="checklistOptions" value="checklist3">
-                        <label for="check3">Initial Payment Received</label>
-                    </div>
+                    <h3 class="questionnaire-header">❓ Client Questionnaire</h3>
+
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="quest1" name="questionnaireOptions" value="express_entry">
+                        1. Express Entry / PNP / PR Application
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="quest2" name="questionnaireOptions" value="wp_inside">
+                        2. Work Permit Inside Canada (PGWP, SOWP, BOWP, LMIA)
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="quest3" name="questionnaireOptions" value="wp_outside">
+                        3. Work Permit Outside Canada (SOWP, LMIA)
+                    </label>
                 </div>
 
-                <div class="checkbox-group">
-                    <h3>❓ Client Questionnaire</h3>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="quest1" name="questionnaireOptions" value="questionnaire1">
-                        <label for="quest1">Flagged as High Risk</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="quest2" name="questionnaireOptions" value="questionnaire2">
-                        <label for="quest2">Requires Custom Setup</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="quest3" name="questionnaireOptions" value="questionnaire3">
-                        <label for="quest3">Marketing Communications Opt-In</label>
-                    </div>
-                </div>
-
-                <!-- Button Group -->
+                <!-- SUBMIT BUTTON GROUP (ADDED HERE) -->
                 <div class="button-group">
                     <button type="button" class="btn-secondary" onclick="goBackToStep2()">← Back</button>
                     <button type="submit">✅ Submit & Start Workflow</button>
@@ -616,10 +727,7 @@
             alertBox.textContent = message;
             alertBox.className = `alert ${type}`;
             alertBox.style.display = 'block';
-            
-            setTimeout(() => {
-                alertBox.style.display = 'none';
-            }, 5000);
+            setTimeout(() => { alertBox.style.display = 'none'; }, 5000);
         }
 
         function updateStep(stepNumber) {
@@ -654,25 +762,36 @@
             updateStep(2);
         }
 
-        /* NEW: Helper to toggle fields between Read-Only (Search) and Editable (Manual) */
+        /* TOGGLE SUB OPTIONS FUNCTION */
+        function toggleSubOptions(parentCheckbox, subOptionsId) {
+            const subOptionsDiv = document.getElementById(subOptionsId);
+            if (!subOptionsDiv) return;
+
+            if (parentCheckbox.checked) {
+                // Open accordion
+                subOptionsDiv.classList.add('open');
+            } else {
+                // Close accordion AND uncheck all children
+                subOptionsDiv.classList.remove('open');
+                const childCheckboxes = subOptionsDiv.querySelectorAll('input[type="checkbox"]');
+                childCheckboxes.forEach(cb => cb.checked = false);
+            }
+        }
+
         function toggleReadOnly(isReadOnly) {
             const inputs = ['originalPhoneNum', 'qualityScore', 'callType', 'timeStamp'];
             const groups = ['group-phone', 'group-score', 'group-call', 'group-time'];
 
             if (isReadOnly) {
-                // Set fields to Read Only
                 inputs.forEach(id => document.getElementById(id).setAttribute('readonly', true));
                 groups.forEach(id => document.getElementById(id).classList.add('read-only'));
             } else {
-                // Set fields to Editable
                 inputs.forEach(id => document.getElementById(id).removeAttribute('readonly'));
                 groups.forEach(id => document.getElementById(id).classList.remove('read-only'));
             }
         }
 
-        /* NEW: Enter Manually Function */
         function enterManually() {
-            // 1. Clear all fields to ensure no leftover data
             document.getElementById('mondayItemId').value = '';
             document.getElementById('customerName').value = '';
             document.getElementById('email').value = '';
@@ -681,41 +800,13 @@
             document.getElementById('callType').value = '';
             document.getElementById('timeStamp').value = '';
 
-            // 2. Make fields editable
             toggleReadOnly(false);
-
-            // 3. Move to next step
             updateStep(2);
             showSection('clientDetailsSection');
         }
 
-        function setDefaultCheckboxes(plan) {
-            document.querySelectorAll('#documentSelectionSection input[type="checkbox"]').forEach(cb => cb.checked = false);
-            
-            if (plan === 'PlanA') {
-                document.getElementById('doc1').checked = true;
-                document.getElementById('doc2').checked = true;
-                document.getElementById('doc3').checked = true;
-            } else if (plan === 'PlanB') {
-                document.getElementById('doc1').checked = true;
-                document.getElementById('doc2').checked = true;
-            } else if (plan === 'PlanC') {
-                document.getElementById('doc2').checked = true;
-                document.getElementById('doc3').checked = true;
-            }
-        }
-
-        function handlePlanChange(plan, element) {
-            document.querySelectorAll('.plan-card').forEach(card => {
-                card.classList.remove('selected');
-            });
-            element.closest('.plan-card').classList.add('selected');
-            setDefaultCheckboxes(plan);
-        }
-
         async function findClientDetails() {
             const phoneNumber = document.getElementById('phoneNumSearch').value.trim();
-            
             if (!phoneNumber) {
                 showAlert('⚠️ Please enter a phone number', 'error');
                 return;
@@ -724,7 +815,7 @@
             const searchBtn = document.querySelector('.search-btn');
             const searchBtnText = document.getElementById('searchBtnText');
             const searchSpinner = document.getElementById('searchSpinner');
-            
+
             searchBtn.disabled = true;
             searchBtnText.style.display = 'none';
             searchSpinner.style.display = 'block';
@@ -740,7 +831,6 @@
 
                 if (response.status === 200 && data.status === 'success') {
                     const client = data.client;
-
                     document.getElementById('mondayItemId').value = client.mondayItemId;
                     document.getElementById('customerName').value = client.customerName;
                     document.getElementById('email').value = client.email;
@@ -749,18 +839,16 @@
                     document.getElementById('callType').value = client.callType;
                     document.getElementById('timeStamp').value = client.timeStamp;
 
-                    // Ensure fields are locked (Read Only) because we found data
                     toggleReadOnly(true);
-
                     showAlert('✅ Client found successfully!', 'success');
                     updateStep(2);
                     showSection('clientDetailsSection');
                 } else {
-                    showAlert(`❌ ${data.message || 'Client not found. Please check the phone number or enter details manually.'}`, 'error');
+                    showAlert(`❌ ${data.message || 'Client not found.'}`, 'error');
                 }
             } catch (error) {
                 console.error('Fetch error:', error);
-                showAlert('❌ Could not connect to the server. Please try again.', 'error');
+                showAlert('❌ Could not connect to the server.', 'error');
             } finally {
                 searchBtn.disabled = false;
                 searchBtnText.style.display = 'inline';
@@ -774,28 +862,81 @@
             const phone = document.getElementById('originalPhoneNum').value.trim();
 
             if (!customerName || !email || !phone) {
-                showAlert('⚠️ Please fill in all required fields (Name, Email, Phone)', 'error');
+                showAlert('⚠️ Please fill in all required fields', 'error');
                 return;
             }
 
             updateStep(3);
-            showSection('documentSelectionSection');
-            setDefaultCheckboxes('PlanA');
+            showSection('serviceSelectionSection');
         }
 
-        document.getElementById('phoneNumSearch').addEventListener('keypress', function(e) {
+        document.getElementById('phoneNumSearch').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 findClientDetails();
             }
         });
 
-        document.getElementById('onboardingForm').addEventListener('submit', function(e) {
-            const checkedDocs = document.querySelectorAll('.doc-checkbox:checked');
-            if (checkedDocs.length === 0) {
-                e.preventDefault();
-                showAlert('⚠️ Please select at least one document', 'error');
+        document.getElementById('onboardingForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const form = this;
+            // Ensure at least one main checklist is selected
+            const serviceSelected = form.querySelectorAll('input[name="serviceType"]:checked');
+            if (serviceSelected.length === 0) {
+                showAlert('⚠️ Please select at least one Main Checklist', 'error');
+                return;
+            }
+
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalBtnHTML = submitBtn ? submitBtn.innerHTML : null;
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '⏳ Submitting...';
+            }
+
+            try {
+                const fd = new FormData(form);
+                // Convert FormData to a JS object, preserving multiple values as arrays
+                const payload = {};
+                for (const [key, value] of fd.entries()) {
+                    if (Object.prototype.hasOwnProperty.call(payload, key)) {
+                        if (!Array.isArray(payload[key])) payload[key] = [payload[key]];
+                        payload[key].push(value);
+                    } else {
+                        payload[key] = value;
+                    }
+                }
+
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                let data = null;
+                try { data = await response.json(); } catch (err) { data = null; }
+
+                if (response.ok) {
+                    const msg = (data && (data.message || data.msg)) || 'Workflow was started';
+                    showAlert(`✅ ${msg}`, 'success');
+                    setTimeout(() => { location.reload(); }, 3000);
+                } else {
+                    const errMsg = (data && (data.message || data.error)) || `Server responded with ${response.status}`;
+                    showAlert(`❌ ${errMsg}`, 'error');
+                    setTimeout(() => { location.reload(); }, 3000);
+                }
+            } catch (err) {
+                console.error('Submit error:', err);
+                showAlert('❌ Could not submit the form. Check your network.', 'error');
+                setTimeout(() => { location.reload(); }, 3000);
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    if (originalBtnHTML !== null) submitBtn.innerHTML = originalBtnHTML;
+                }
             }
         });
     </script>
 </body>
+
 </html>
