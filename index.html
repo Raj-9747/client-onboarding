@@ -526,7 +526,7 @@
                 <div class="checkbox-group">
                     <h3 class="service-header">Select Checklists</h3>
 
-                    <!-- 1. CEC (With Sub-options) -->
+                    <!-- 1. CEC -->
                     <div class="checkbox-wrapper">
                         <label class="checkbox-item parent-checkbox">
                             <input type="checkbox" name="serviceType" value="CEC"
@@ -540,17 +540,17 @@
                         <div class="sub-options" id="sub-CEC">
                             <label class="checkbox-item sub-item">
                                 <input type="checkbox" name="subServiceType" value="CEC - Single Applicant">
-                                Document Checklist- CEC- Single applicant
+                                CEC - Single Applicant
                             </label>
                             <label class="checkbox-item sub-item">
                                 <input type="checkbox" name="subServiceType"
                                     value="CEC - Accompanying spouse and child">
-                                Document Checklist- CEC- Accompanying spouse and child
+                                CEC - Accompanying spouse and child
                             </label>
                         </div>
                     </div>
 
-                    <!-- 2. Citizenship (With Sub-options) -->
+                    <!-- 2. Citizenship -->
                     <div class="checkbox-wrapper">
                         <label class="checkbox-item parent-checkbox">
                             <input type="checkbox" name="serviceType" value="Citizenship"
@@ -565,12 +565,12 @@
                             <label class="checkbox-item sub-item">
                                 <input type="checkbox" name="subServiceType"
                                     value="Citizenship - Accompanying spouse or child">
-                                Document Checklist- Citizenship- Accompanying spouse or child
+                                Citizenship - Accompanying spouse or child
                             </label>
                         </div>
                     </div>
 
-                    <!-- 3. Non-Express Entry (With Sub-options) -->
+                    <!-- 3. Non-Express Entry -->
                     <div class="checkbox-wrapper">
                         <label class="checkbox-item parent-checkbox">
                             <input type="checkbox" name="serviceType" value="Non-Express Entry"
@@ -585,12 +585,12 @@
                             <label class="checkbox-item sub-item">
                                 <input type="checkbox" name="subServiceType"
                                     value="Non-Express Entry - Non accompanying spouse">
-                                Document Checklist- Non-Express Entry- Non accompanying spouse
+                                Non-Express Entry - Non accompanying spouse
                             </label>
                             <label class="checkbox-item sub-item">
                                 <input type="checkbox" name="subServiceType"
                                     value="Non-Express Entry - Accompanying spouse and child">
-                                Document Checklist- Non-Express Entry- Accompanying spouse and child
+                                Non-Express Entry - Accompanying spouse and child
                             </label>
                         </div>
                     </div>
@@ -598,102 +598,375 @@
                     <!-- 4. Parents and Grandparents -->
                     <div class="checkbox-wrapper">
                         <label class="checkbox-item parent-checkbox">
-                            <input type="checkbox" name="serviceType" value="Parents and Grandparents">
+                            <input type="checkbox" name="serviceType" value="Parents and Grandparents"
+                                onchange="toggleSubOptions(this, 'sub-PGP')">
                             <div class="service-icon"><svg viewBox="0 0 24 24">
                                     <path
                                         d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z" />
                                 </svg></div>
                             Parents and Grandparents
                         </label>
+                        <div class="sub-options" id="sub-PGP">
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="Parents & Grandparents Sponsorship">
+                                Parents & Grandparents Sponsorship
+                            </label>
+                        </div>
                     </div>
 
                     <!-- 5. PR Card -->
                     <div class="checkbox-wrapper">
                         <label class="checkbox-item parent-checkbox">
-                            <input type="checkbox" name="serviceType" value="PR Card">
+                            <input type="checkbox" name="serviceType" value="PR Card"
+                                onchange="toggleSubOptions(this, 'sub-PR')">
                             <div class="service-icon"><svg viewBox="0 0 24 24">
                                     <path
                                         d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z" />
                                 </svg></div>
                             PR Card
                         </label>
+                        <div class="sub-options" id="sub-PR">
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="PR Card Renewal - Accompanying">
+                                PR Card Renewal - Accompanying
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="PRTD - Accompanying spouse">
+                                PRTD - Accompanying spouse
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="Voluntary Renunciation of PR">
+                                Voluntary Renunciation of PR
+                            </label>
+                        </div>
                     </div>
 
-                    <!-- 6. Provincial Nominee -->
+                    <!-- 6. Provincial Nominee Programs -->
                     <div class="checkbox-wrapper">
                         <label class="checkbox-item parent-checkbox">
-                            <input type="checkbox" name="serviceType" value="Provincial Nominee Programs">
+                            <input type="checkbox" name="serviceType" value="Provincial Nominee Programs"
+                                onchange="toggleSubOptions(this, 'sub-PNP')">
                             <div class="service-icon"><svg viewBox="0 0 24 24">
                                     <path
                                         d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z" />
                                 </svg></div>
                             Provincial Nominee Programs
                         </label>
+                        <div class="sub-options" id="sub-PNP">
+                            <p style="font-size:12px; font-weight:700; color:#666; margin:8px 0 4px 5px;">Alberta (AAIP)
+                            </p>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="AAIP - Express Entry Stream">
+                                AAIP - Express Entry Stream
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="AAIP - Opportunity Stream">
+                                AAIP - Opportunity Stream
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType"
+                                    value="AAIP - Tourism & Hospitality Stream">
+                                AAIP - Tourism & Hospitality Stream
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="AAIP - Rural Renewal Stream">
+                                AAIP - Rural Renewal Stream
+                            </label>
+
+                            <p style="font-size:12px; font-weight:700; color:#666; margin:12px 0 4px 5px;">British
+                                Columbia (BC PNP)</p>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="BC PNP - Company info">
+                                BC PNP - Company info
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="BC PNP - Document Checklist">
+                                BC PNP - Document Checklist
+                            </label>
+
+                            <p style="font-size:12px; font-weight:700; color:#666; margin:12px 0 4px 5px;">Nova Scotia
+                                (NSNP)</p>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="NSNP - Document Checklist">
+                                NSNP - Document Checklist
+                            </label>
+
+                            <p style="font-size:12px; font-weight:700; color:#666; margin:12px 0 4px 5px;">Ontario
+                                (OINP)</p>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="OINP - Foreign Worker Stream">
+                                OINP - Foreign Worker Stream
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="OINP - Human Capital Priorities">
+                                OINP - Human Capital Priorities
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="OINP - In-Demand Skills">
+                                OINP - In-Demand Skills
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="OINP - International Student">
+                                OINP - International Student
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="OINP - Masters Graduate">
+                                OINP - Masters Graduate
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="OINP - PhD Graduate">
+                                OINP - PhD Graduate
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="OINP - Skilled Trades">
+                                OINP - Skilled Trades
+                            </label>
+                        </div>
                     </div>
 
                     <!-- 7. Spousal Sponsorship -->
                     <div class="checkbox-wrapper">
                         <label class="checkbox-item parent-checkbox">
-                            <input type="checkbox" name="serviceType" value="Spousal Sponsorship">
+                            <input type="checkbox" name="serviceType" value="Spousal Sponsorship"
+                                onchange="toggleSubOptions(this, 'sub-Spouse')">
                             <div class="service-icon"><svg viewBox="0 0 24 24">
                                     <path
                                         d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z" />
                                 </svg></div>
                             Spousal Sponsorship
                         </label>
+                        <div class="sub-options" id="sub-Spouse">
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="Common Law Partner - Inland">
+                                Common Law Partner - Inland
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="Spousal Sponsorship - Inland">
+                                Spousal Sponsorship - Inland
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="Spousal Sponsorship - Outland">
+                                Spousal Sponsorship - Outland
+                            </label>
+                        </div>
                     </div>
 
                     <!-- 8. Study Permit -->
                     <div class="checkbox-wrapper">
                         <label class="checkbox-item parent-checkbox">
-                            <input type="checkbox" name="serviceType" value="Study Permit">
+                            <input type="checkbox" name="serviceType" value="Study Permit"
+                                onchange="toggleSubOptions(this, 'sub-Study')">
                             <div class="service-icon"><svg viewBox="0 0 24 24">
                                     <path
                                         d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z" />
                                 </svg></div>
                             Study Permit
                         </label>
+                        <div class="sub-options" id="sub-Study">
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="Study Permit - SDS Stream">
+                                Study Permit - SDS Stream
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="Study Permit - Non SDS Stream">
+                                Study Permit - Non SDS Stream
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="Study Permit - Single Applicant">
+                                Study Permit - Single Applicant
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="Study Permit for dependent child">
+                                Study Permit for dependent child
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="Study Permit Extension - Single">
+                                Study Permit Extension - Single
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType"
+                                    value="Study Permit Extension - Accompanying">
+                                Study Permit Extension - Accompanying
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="SOWP Extension (Worker Spouse)">
+                                SOWP Extension (Worker Spouse)
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="Study Permit - Change of status">
+                                Study Permit - Change of status
+                            </label>
+                        </div>
                     </div>
 
                     <!-- 9. Supervisa -->
                     <div class="checkbox-wrapper">
                         <label class="checkbox-item parent-checkbox">
-                            <input type="checkbox" name="serviceType" value="Supervisa">
+                            <input type="checkbox" name="serviceType" value="Supervisa"
+                                onchange="toggleSubOptions(this, 'sub-Super')">
                             <div class="service-icon"><svg viewBox="0 0 24 24">
                                     <path
                                         d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z" />
                                 </svg></div>
                             Supervisa
                         </label>
+                        <div class="sub-options" id="sub-Super">
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="Supervisa - Parents">
+                                Supervisa - Parents
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="Supervisa - GrandParents">
+                                Supervisa - GrandParents
+                            </label>
+                        </div>
                     </div>
 
                     <!-- 10. Visitor -->
                     <div class="checkbox-wrapper">
                         <label class="checkbox-item parent-checkbox">
-                            <input type="checkbox" name="serviceType" value="Visitor">
+                            <input type="checkbox" name="serviceType" value="Visitor"
+                                onchange="toggleSubOptions(this, 'sub-Visitor')">
                             <div class="service-icon"><svg viewBox="0 0 24 24">
                                     <path
                                         d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z" />
                                 </svg></div>
                             Visitor
                         </label>
+                        <div class="sub-options" id="sub-Visitor">
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="Visitor Visa - Single Parent">
+                                Visitor Visa - Single Parent
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="Visitor Visa - Both Parents">
+                                Visitor Visa - Both Parents
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="Visitor Visa - 1 or 2 members">
+                                Visitor Visa - 1 or 2 members
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType"
+                                    value="Visitor Visa - Parents and siblings">
+                                Visitor Visa - Parents and siblings
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="Visitor Visa - Spouse">
+                                Visitor Visa - Spouse
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType"
+                                    value="Visitor Visa - Spouse (Spousal Sponsorship in process)">
+                                Visitor Visa - Spouse (Spousal Sponsorship in process)
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="Visitor Visa - Change of Status">
+                                Visitor Visa - Change of Status
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="Visitor Record (extension)">
+                                Visitor Record (extension)
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="TRV">
+                                TRV
+                            </label>
+                        </div>
                     </div>
 
                     <!-- 11. Work Permits -->
                     <div class="checkbox-wrapper">
                         <label class="checkbox-item parent-checkbox">
-                            <input type="checkbox" name="serviceType" value="Work Permits">
+                            <input type="checkbox" name="serviceType" value="Work Permits"
+                                onchange="toggleSubOptions(this, 'sub-Work')">
                             <div class="service-icon"><svg viewBox="0 0 24 24">
                                     <path
                                         d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z" />
                                 </svg></div>
                             Work Permits
                         </label>
+                        <div class="sub-options" id="sub-Work">
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="PGWP (Single Applicant)">
+                                PGWP (Single Applicant)
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="PGWP Extension (Single Applicant)">
+                                PGWP Extension (Single Applicant)
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType"
+                                    value="PGWP - Accompanying spouse (Inland)">
+                                PGWP - Accompanying spouse (Inland)
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType"
+                                    value="PGWP Extension - Accompanying spouse">
+                                PGWP Extension - Accompanying spouse
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType"
+                                    value="SOWP (Worker Spouse) - Established Rel (Inland)">
+                                SOWP (Worker Spouse) - Established Rel (Inland)
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType"
+                                    value="SOWP (Worker Spouse) - Non established Rel (Inland)">
+                                SOWP (Worker Spouse) - Non established Rel (Inland)
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="SOWP (Worker Spouse) - Outland">
+                                SOWP (Worker Spouse) - Outland
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="SOWP Extension (Worker Spouse)">
+                                SOWP Extension (Worker Spouse)
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType"
+                                    value="SOWP (Spousal Sponsorship in process)">
+                                SOWP (Spousal Sponsorship in process)
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="BOWP - Single, accompanying spouse">
+                                BOWP - Single, accompanying spouse
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType"
+                                    value="LMIA Based - Single/Accompanying (Inside)">
+                                LMIA Based - Single/Accompanying (Inside)
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType"
+                                    value="LMIA Based - Single/Accompanying (Outside)">
+                                LMIA Based - Single/Accompanying (Outside)
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="LMIA Based Extension - Inside">
+                                LMIA Based Extension - Inside
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="LMIA exempt Work permit">
+                                LMIA exempt Work permit
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="Concurrent Work permit">
+                                Concurrent Work permit
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="Open work permit (Child > 18)">
+                                Open work permit (Child > 18)
+                            </label>
+                            <label class="checkbox-item sub-item">
+                                <input type="checkbox" name="subServiceType" value="Work Permit Extension (NB)">
+                                Work Permit Extension (NB)
+                            </label>
+                        </div>
                     </div>
                 </div>
 
                 <!-- 2. Client Questionnaire -->
-                <!-- 3. Client Questionnaire -->
                 <div class="checkbox-group">
                     <h3 class="questionnaire-header">❓ Client Questionnaire</h3>
 
