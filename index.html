@@ -335,6 +335,32 @@
             min-width: 180px;
         }
 
+        .btn-search-mode {
+            background: #f0f0f0;
+            color: #666;
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            flex: 1;
+            width: auto;
+        }
+
+        .btn-search-mode:hover {
+            background: #e8e8e8;
+            border-color: #999;
+        }
+
+        .btn-search-mode.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
         .or-divider {
             display: flex;
             align-items: center;
@@ -453,14 +479,35 @@
         <!-- SECTION 1: Search / Manual -->
         <div id="searchSection" class="section active">
             <div class="info-banner">
-                <p>📱 Enter the client's phone number to auto-fill details, or choose to enter information manually.</p>
+                <p>📱 Enter the client's phone number or Client ID to auto-fill details, or choose to enter information manually.</p>
             </div>
 
-            <div class="search-container">
+            <!-- Search Mode Tabs -->
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <button type="button" class="btn-search-mode active" id="phoneSearchTab" onclick="switchSearchMode('phone')">
+                    📞 Search by Phone
+                </button>
+                <button type="button" class="btn-search-mode" id="clientIdSearchTab" onclick="switchSearchMode('clientId')">
+                    🆔 Search by Client ID
+                </button>
+            </div>
+
+            <!-- (associate id removed — not provided by user) -->
+            <!-- Phone Number Search -->
+            <div id="phoneSearchContainer" class="search-container" style="display: flex;">
                 <input type="tel" id="phoneNumSearch" placeholder="Enter Phone Number (e.g., 917990700545)">
                 <button type="button" class="search-btn" onclick="findClientDetails()">
                     <span id="searchBtnText">🔍 Find Client</span>
                     <div id="searchSpinner" class="loading-spinner"></div>
+                </button>
+            </div>
+
+            <!-- Client ID Search -->
+            <div id="clientIdSearchContainer" class="search-container" style="display: none;">
+                <input type="text" id="clientIdSearch" placeholder="Enter Client ID (e.g., 12345)">
+                <button type="button" class="search-btn" onclick="findClientByID()">
+                    <span id="searchBtnTextID">🔍 Find Client</span>
+                    <div id="searchSpinnerID" class="loading-spinner"></div>
                 </button>
             </div>
 
@@ -1042,7 +1089,7 @@
     </div>
 
     <script>
-        const WEBHOOK_URL_1 = "https://n8n.srv898271.hstgr.cloud/webhook/find-client-details";
+        const WEBHOOK_URL = "https://n8n.srv898271.hstgr.cloud/webhook/find-client-details";
 
         function showAlert(message, type) {
             const alertBox = document.getElementById('alertBox');
@@ -1050,6 +1097,27 @@
             alertBox.className = `alert ${type}`;
             alertBox.style.display = 'block';
             setTimeout(() => { alertBox.style.display = 'none'; }, 5000);
+        }
+
+        function switchSearchMode(mode) {
+            const phoneContainer = document.getElementById('phoneSearchContainer');
+            const clientIdContainer = document.getElementById('clientIdSearchContainer');
+            const phoneTab = document.getElementById('phoneSearchTab');
+            const clientIdTab = document.getElementById('clientIdSearchTab');
+
+            if (mode === 'phone') {
+                phoneContainer.style.display = 'flex';
+                clientIdContainer.style.display = 'none';
+                phoneTab.classList.add('active');
+                clientIdTab.classList.remove('active');
+                document.getElementById('phoneNumSearch').focus();
+            } else {
+                phoneContainer.style.display = 'none';
+                clientIdContainer.style.display = 'flex';
+                phoneTab.classList.remove('active');
+                clientIdTab.classList.add('active');
+                document.getElementById('clientIdSearch').focus();
+            }
         }
 
         function updateStep(stepNumber) {
@@ -1134,7 +1202,7 @@
                 return;
             }
 
-            const searchBtn = document.querySelector('.search-btn');
+            const searchBtn = document.querySelector('#phoneSearchContainer .search-btn');
             const searchBtnText = document.getElementById('searchBtnText');
             const searchSpinner = document.getElementById('searchSpinner');
 
@@ -1143,10 +1211,65 @@
             searchSpinner.style.display = 'block';
 
             try {
-                const response = await fetch(WEBHOOK_URL_1, {
+                const payload = { column: 'text_mkt4w6df', SearchValue: phoneNumber };
+
+                const response = await fetch(WEBHOOK_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ phoneNumSearch: phoneNumber })
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (response.status === 200 && data.status === 'success') {
+                    const client = data.client;
+                    document.getElementById('mondayItemId').value = client.mondayItemId;
+                    document.getElementById('customerName').value = client.customerName;
+                    document.getElementById('email').value = client.email;
+                    document.getElementById('originalPhoneNum').value = client.phoneNum;
+                    document.getElementById('qualityScore').value = client.qualityScore;
+                    document.getElementById('callType').value = client.callType;
+                    document.getElementById('timeStamp').value = client.timeStamp;
+
+                    toggleReadOnly(true);
+                    showAlert('✅ Client found successfully!', 'success');
+                    updateStep(2);
+                    showSection('clientDetailsSection');
+                } else {
+                    showAlert(`❌ ${data.message || 'Client not found.'}`, 'error');
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+                showAlert('❌ Could not connect to the server.', 'error');
+            } finally {
+                searchBtn.disabled = false;
+                searchBtnText.style.display = 'inline';
+                searchSpinner.style.display = 'none';
+            }
+        }
+
+        async function findClientByID() {
+            const clientId = document.getElementById('clientIdSearch').value.trim();
+            if (!clientId) {
+                showAlert('⚠️ Please enter a client ID', 'error');
+                return;
+            }
+
+            const searchBtn = document.querySelector('#clientIdSearchContainer .search-btn');
+            const searchBtnText = document.getElementById('searchBtnTextID');
+            const searchSpinner = document.getElementById('searchSpinnerID');
+
+            searchBtn.disabled = true;
+            searchBtnText.style.display = 'none';
+            searchSpinner.style.display = 'block';
+
+            try {
+                const payload = { column: 'numeric_mkt4t8ra', SearchValue: clientId };
+
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
                 });
 
                 const data = await response.json();
@@ -1195,6 +1318,12 @@
         document.getElementById('phoneNumSearch').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 findClientDetails();
+            }
+        });
+
+        document.getElementById('clientIdSearch').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                findClientByID();
             }
         });
 
